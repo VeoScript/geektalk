@@ -14,7 +14,7 @@ const Home: NextPage = () => {
         <title>GeekTalk</title>
       </Head>
       <Layout>
-        <div className="relative flex flex-col w-full max-w-full h-full">
+        <div className="relative flex flex-col w-full max-w-full h-full overflow-hidden">
           <ChatHeader />
           <ChatBody />
           <ChatForm />

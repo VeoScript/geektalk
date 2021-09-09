@@ -14,6 +14,7 @@ module.exports = {
         'cyber-black': '#080808',
         'cyber-dim': '#0C0C0C',
         'cyber-green': '#00FE00',
+        'cyber-violet': '#A164F0'
       },
       fontFamily: {
         firacode: ['Fira Code', ...defaultTheme.fontFamily.mono],
