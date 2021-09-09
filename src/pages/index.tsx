@@ -2,14 +2,17 @@ import type { NextPage } from 'next'
 import React from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 
-const Home: NextPage = () => {
+const SignIn: NextPage = () => {
 
+  const router = useRouter()
   const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm()
 
   async function handleLogin(formData: any) {
     console.log(formData)
+    router.push('/home')
   }
 
   return (
@@ -71,4 +74,4 @@ const Home: NextPage = () => {
   )
 }
 
-export default Home
+export default SignIn
