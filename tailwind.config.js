@@ -12,7 +12,7 @@ module.exports = {
       colors: {
         'cyber-white': '#FFFFFF',
         'cyber-black': '#080808',
-        'cyber-dim': '#222222',
+        'cyber-dim': '#0C0C0C',
         'cyber-green': '#00FE00',
       },
       fontFamily: {
