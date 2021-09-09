@@ -15,7 +15,7 @@ const Home: NextPage = () => {
   return (
     <React.Fragment>
       <Head>
-        <title>Geek Talk</title>
+        <title>Sign In | GeekTalk</title>
       </Head>
       <div className="font-firacode flex flex-row items-center justify-center w-full h-screen bg-cyber-black text-cyber-green">
         <div className="flex flex-col items-center justify-center w-full h-full space-y-5">
@@ -30,9 +30,9 @@ const Home: NextPage = () => {
                 className="font-light text-base px-5 py-3 w-full bg-cyber-black border border-cyber-dim focus:border-cyber-green focus:outline-none"
                 type="text"
                 placeholder="Email"
-                {...register("email", { required: true })}
+                {...register("email", { required: true, pattern: { value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i, message: "Invalid Email" }})}
               />
-              {errors.email && <span className="font-light text-[10px] text-cyber-white ml-1">Email is required</span>}
+              {errors.email && <span className="font-light text-[10px] text-cyber-white ml-1">{errors.email.message || 'Email is required'}</span>}
             </div>
             <div className="form-control flex flex-col w-full space-y-1.5">
               <input
@@ -52,7 +52,7 @@ const Home: NextPage = () => {
               </button>
             </div>
             <div className="flex flex-row items-center justify-between w-full">
-              <Link href="/">
+              <Link href="/signup">
                 <a className="font-light text-cyber-white text-xs hover:underline">Create Account</a>
               </Link>
               <Link href="/">
