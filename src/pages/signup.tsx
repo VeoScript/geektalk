@@ -102,7 +102,7 @@ const SignUp: NextPage = () => {
           </form>
           <footer className="absolute bottom-0 w-full bg-cyber-black">
             <div className="flex flex-col items-center justify-center w-full py-3">
-              <span className="font-light text-xs text-white">© Osomware 2021, All rights reserved.</span>
+              <span className="font-light text-xs text-white">© Osomware { new Date().getFullYear() }, All rights reserved.</span>
             </div>
           </footer>
         </div>
