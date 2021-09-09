@@ -1,11 +1,70 @@
 import React from 'react'
+import { useRouter } from 'next/router'
+import { useForm } from 'react-hook-form'
+
+interface FormData {
+  message_box: string
+}
 
 const ChatForm: React.FC = () => {
+
+  const router = useRouter()
+
+  const defaultValues = {
+    message_box: ''
+  }
+
+  const { register, handleSubmit, reset, setValue, setError, formState: { errors, isSubmitting } } = useForm<FormData>({ defaultValues })
+
+  React.useEffect(() => {
+    register('message_box', { required: true })
+  }, [register])
+
+  async function sendMessage(form_data: FormData) {
+    const message_box = form_data.message_box
+    const chat_input = document.getElementById('chatbox')
+
+    if(chat_input == null || message_box === ''){
+      return
+    }
+
+    console.log(message_box)
+    chat_input.innerHTML= ''
+    reset()
+  }
+
+  function handleKeyPress(e: any) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      handleSubmit(sendMessage)()
+    }
+  }
+
+
   return (
     <div className="absolute bottom-0 z-20 w-full">
-      <div className="flex flex-row items-center w-full px-5 py-5 bg-cyber-black">
-        ...send message component
-      </div>
+      <form onSubmit={handleSubmit(sendMessage)} className="flex flex-row items-center w-full bg-cyber-black">
+        <div
+          contentEditable
+          id="chatbox"
+          className={`${ isSubmitting ? 'hidden' : 'block' } w-full h-full max-h-[5rem] px-5 py-5 overflow-y-auto whitespace-pre-wrap text-xs cursor-text focus:outline-none font-light`}
+          placeholder="Message here..."
+          onInput={(e: any) => setValue('message_box', e.currentTarget.textContent, { shouldValidate: true })}
+          onKeyPress={handleKeyPress}
+        />
+        <span className={`${ isSubmitting ? 'block' : 'hidden' } w-full text-xs cursor-default text-gray-400`}>Sending...</span>
+        <div className="flex flex-row items-center justify-end px-5 space-x-3">
+          {isSubmitting
+            ?
+            'Loading...'
+            :
+            <button type="submit" className="flex flex-row justify-end w-full text-modern-white opacity-30 transition ease-in-out duration-300 hover:scale-95 disabled:cursor-not-allowed disabled:opacity-50" disabled={isSubmitting}>
+              <svg className="w-6 h-6 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M24 0l-6 22-8.129-7.239 7.802-8.234-10.458 7.227-7.215-1.754 24-12zm-15 16.668v7.332l3.258-4.431-3.258-2.901z"/>
+              </svg>
+            </button>
+          }
+        </div>
+      </form>
     </div>
   )
 }
