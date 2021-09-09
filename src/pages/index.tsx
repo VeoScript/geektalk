@@ -47,12 +47,19 @@ const SignIn: NextPage = () => {
               {errors.password && <span className="font-light text-[10px] text-cyber-white ml-1">Password is required</span>}
             </div>
             <div className="form-control flex w-full">
-              <button 
-                className="font-bold text-base px-5 py-3 w-full text-cyber-black bg-cyber-green focus:outline-none"
-                type="submit"
-              >
-                Sign In
-              </button>
+              {!isSubmitting && (
+                <button 
+                  className="font-bold text-base px-5 py-3 w-full text-cyber-black bg-cyber-green focus:outline-none"
+                  type="submit"
+                >
+                  Sign In
+                </button>
+              )}
+              {isSubmitting && (
+                <div className="font-bold text-base px-5 py-3 w-full cursor-wait text-center text-cyber-black bg-cyber-green focus:outline-none">
+                  Signing In...
+                </div>
+              )}
             </div>
             <div className="flex flex-row items-center justify-between w-full">
               <Link href="/signup">
