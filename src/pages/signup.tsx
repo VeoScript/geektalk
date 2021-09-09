@@ -27,7 +27,7 @@ const SignUp: NextPage = () => {
             <div className="flex flex-row items-start w-full space-x-3">
               <div className="form-control flex flex-col w-full space-y-1.5">
                 <input
-                  className="font-light text-base px-5 py-3 w-full bg-cyber-black border border-cyber-dim focus:border-cyber-green focus:outline-none"
+                  className="font-light text-base px-5 py-3 w-full bg-cyber-black border border-cyber-white border-opacity-20 focus:border-cyber-green focus:outline-none"
                   type="text"
                   placeholder="Full Name"
                   {...register("fullname", { required: true })}
@@ -36,7 +36,7 @@ const SignUp: NextPage = () => {
               </div>
               <div className="form-control flex flex-col w-full space-y-1.5">
                 <input
-                  className="font-light text-base px-5 py-3 w-full bg-cyber-black border border-cyber-dim focus:border-cyber-green focus:outline-none"
+                  className="font-light text-base px-5 py-3 w-full bg-cyber-black border border-cyber-white border-opacity-20 focus:border-cyber-green focus:outline-none"
                   type="text"
                   placeholder="Create Username"
                   {...register("username", { required: true })}
@@ -46,7 +46,7 @@ const SignUp: NextPage = () => {
             </div>
             <div className="form-control flex flex-col w-full space-y-1.5">
               <input
-                className="font-light text-base px-5 py-3 w-full bg-cyber-black border border-cyber-dim focus:border-cyber-green focus:outline-none"
+                className="font-light text-base px-5 py-3 w-full bg-cyber-black border border-cyber-white border-opacity-20 focus:border-cyber-green focus:outline-none"
                 type="text"
                 min={0}
                 placeholder="Phone Number"
@@ -56,7 +56,7 @@ const SignUp: NextPage = () => {
             </div>
             <div className="form-control flex flex-col w-full space-y-1.5">
               <input
-                className="font-light text-base px-5 py-3 w-full bg-cyber-black border border-cyber-dim focus:border-cyber-green focus:outline-none"
+                className="font-light text-base px-5 py-3 w-full bg-cyber-black border border-cyber-white border-opacity-20 focus:border-cyber-green focus:outline-none"
                 type="text"
                 placeholder="Email"
                 {...register("email", { required: true, pattern: { value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i, message: "Invalid Email" } })}
@@ -66,7 +66,7 @@ const SignUp: NextPage = () => {
             <div className="flex flex-row items-start w-full space-x-3">
               <div className="form-control flex flex-col w-full space-y-1.5">
                 <input
-                  className="font-light text-base px-5 py-3 w-full bg-cyber-black border border-cyber-dim focus:border-cyber-green focus:outline-none"
+                  className="font-light text-base px-5 py-3 w-full bg-cyber-black border border-cyber-white border-opacity-20 focus:border-cyber-green focus:outline-none"
                   type="password"
                   placeholder="Create Password"
                   {...register("password", { required: true })}
@@ -75,7 +75,7 @@ const SignUp: NextPage = () => {
               </div>
               <div className="form-control flex flex-col w-full space-y-1.5">
                 <input
-                  className="font-light text-base px-5 py-3 w-full bg-cyber-black border border-cyber-dim focus:border-cyber-green focus:outline-none"
+                  className="font-light text-base px-5 py-3 w-full bg-cyber-black border border-cyber-white border-opacity-20 focus:border-cyber-green focus:outline-none"
                   type="password"
                   placeholder="Re-type Password"
                   {...register("password", { required: true })}

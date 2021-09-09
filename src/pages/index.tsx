@@ -30,7 +30,7 @@ const SignIn: NextPage = () => {
           <form onSubmit={handleSubmit(handleLogin)} className="flex flex-col items-center w-full max-w-lg space-y-3">
             <div className="form-control flex flex-col w-full space-y-1.5">
               <input
-                className="font-light text-base px-5 py-3 w-full bg-cyber-black border border-cyber-dim focus:border-cyber-green focus:outline-none"
+                className="font-light text-base px-5 py-3 w-full bg-cyber-black border border-cyber-white border-opacity-20 focus:border-cyber-green focus:outline-none"
                 type="text"
                 placeholder="Email"
                 {...register("email", { required: true, pattern: { value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i, message: "Invalid Email" }})}
@@ -39,7 +39,7 @@ const SignIn: NextPage = () => {
             </div>
             <div className="form-control flex flex-col w-full space-y-1.5">
               <input
-                className="font-light text-base px-5 py-3 w-full bg-cyber-black border border-cyber-dim focus:border-cyber-green focus:outline-none"
+                className="font-light text-base px-5 py-3 w-full bg-cyber-black border border-cyber-white border-opacity-20 focus:border-cyber-green focus:outline-none"
                 type="password"
                 placeholder="Password"
                 {...register("password", { required: true })}
