@@ -7,7 +7,7 @@ const Layout: React.FC = ({ children }) => {
       <div className="flex flex-col w-full max-w-xs h-full overflow-y-auto">
         <SideBar />
       </div>
-      <div className="flex flex-col w-full h-full border-l border-cyber-white border-opacity-30">
+      <div className="flex flex-col w-full h-full border-l border-cyber-white border-opacity-10">
         { children }
       </div>
     </div>
