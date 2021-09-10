@@ -1,5 +1,5 @@
 ## GeekTalk
-Osomware Presents GeekTalk. <br />
+Osomware Presents GeekChat. <br />
 Try to ask some questions, maybe we have an answers for that.
 
 > Under Development

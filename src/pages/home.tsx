@@ -11,7 +11,7 @@ const Home: NextPage = () => {
   return (
     <React.Fragment>
       <Head>
-        <title>GeekTalk</title>
+        <title>GeekChat</title>
       </Head>
       <Layout>
         <div className="relative flex flex-col w-full max-w-full h-full overflow-hidden">

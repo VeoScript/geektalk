@@ -18,12 +18,12 @@ const SignIn: NextPage = () => {
   return (
     <React.Fragment>
       <Head>
-        <title>Sign In | GeekTalk</title>
+        <title>Sign In | GeekChat</title>
       </Head>
       <div className="font-firacode flex flex-row items-center justify-center w-full h-screen bg-cyber-black text-cyber-green">
         <div className="flex flex-col items-center justify-center w-full h-full space-y-5">
           <div className="flex flex-col items-center text-center w-full max-w-xl space-y-3">
-            <h1 className="font-bold text-3xl text-cyber-white">GeekTalk💻</h1>
+            <h1 className="font-bold text-3xl text-cyber-white">GeekChat💻</h1>
             <p className="font-light text-sm">Try to ask some questions, maybe we have an answers for that.</p>
           </div>
           <span className="text-cyber-white text-lg">Sign In</span>

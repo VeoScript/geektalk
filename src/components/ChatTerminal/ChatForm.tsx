@@ -14,7 +14,7 @@ const ChatForm: React.FC = () => {
     message_box: ''
   }
 
-  const { register, handleSubmit, reset, setValue, setError, formState: { errors, isSubmitting } } = useForm<FormData>({ defaultValues })
+  const { register, handleSubmit, reset, setValue, formState: { errors, isSubmitting } } = useForm<FormData>({ defaultValues })
 
   React.useEffect(() => {
     register('message_box', { required: true })
@@ -68,8 +68,6 @@ const ChatForm: React.FC = () => {
   )
 }
 
-export default ChatForm
-
 function LoadingButton() {
   return (
     <div className="flex">
@@ -93,3 +91,5 @@ function LoadingButton() {
     </div>
   )
 }
+
+export default ChatForm
