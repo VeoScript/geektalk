@@ -1,4 +1,4 @@
-## GeekTalk
+## GeekChat
 Osomware Presents GeekChat. <br />
 Try to ask some questions, maybe we have an answers for that.
 
