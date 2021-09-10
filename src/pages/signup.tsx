@@ -15,12 +15,12 @@ const SignUp: NextPage = () => {
   return (
     <React.Fragment>
       <Head>
-        <title>Sign Up | GeekChat</title>
+        <title>Sign Up | GeekTalk</title>
       </Head>
       <div className="font-firacode flex flex-row items-center justify-center w-full h-screen bg-cyber-black text-cyber-green">
         <div className="flex flex-col items-center justify-center w-full h-full space-y-5">
           <div className="flex flex-col items-center text-center w-full max-w-xl space-y-3">
-            <h1 className="font-bold text-3xl text-cyber-white">GeekChat💻</h1>
+            <h1 className="font-bold text-3xl text-cyber-white">GeekTalk💻</h1>
           </div>
           <span className="text-cyber-white text-lg">Sign Up</span>
           <form onSubmit={handleSubmit(handleSignUp)} className="flex flex-col items-center w-full max-w-lg space-y-3">
@@ -99,11 +99,8 @@ const SignUp: NextPage = () => {
               )}
             </div>
             <div className="flex flex-row items-center justify-between w-full">
-              <Link href="/">
+              <Link href="/signin">
                 <a className="font-light text-cyber-white text-xs hover:underline">Back to Sign In</a>
-              </Link>
-              <Link href="/">
-                <a className="font-light text-cyber-white text-xs hover:underline">Forgot Password?</a>
               </Link>
             </div>
           </form>
