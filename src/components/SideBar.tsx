@@ -10,25 +10,17 @@ const SideBar: React.FC = () => {
       <div className="flex flex-col w-full space-y-2">
         <div className="flex flex-row items-center justify-between w-full px-3">
           <Link href="/">
-            <a className="font-light text-xs hover:underline">{`>`} Discover Servers</a>
+            <a className="font-light text-xs text-cyber-white text-opacity-80 hover:underline">{`>`} Discover Servers</a>
           </Link>
           <Link href="/signin">
-            <a className="font-light text-xs text-red-500 hover:underline">{`>`} Signout</a>
+            <a className="font-light text-xs text-red-500 hover:underline"><span className="text-cyber-white text-opacity-50">{`>`}</span> Signout</a>
           </Link>
         </div>
-        <span className="border-b border-cyber-white border-opacity-30" />
+        <span className="border-b border-cyber-white border-opacity-10" />
       </div>
       <div className="flex flex-col w-full h-full px-3 space-y-2">
         <div className="flex flex-row items-center justify-between w-full">
-          <h5 className="font-light text-sm"><span className="text-cyber-white">$</span> Global Server</h5>
-          <button className="font-light text-sm text-cyber-white hover:underline">{`Chat >`}</button>
-        </div>
-        <div className="flex flex-row items-center justify-between w-full">
-          <h5 className="font-light text-sm"><span className="text-cyber-white">$</span> Hacking Site</h5>
-          <button className="font-light text-sm text-cyber-white hover:underline">{`Chat >`}</button>
-        </div>
-        <div className="flex flex-row items-center justify-between w-full">
-          <h5 className="font-light text-sm"><span className="text-cyber-white">$</span> Religious Group</h5>
+          <h5 className="font-light text-sm"><span className="text-cyber-white">$</span> Server Name</h5>
           <button className="font-light text-sm text-cyber-white hover:underline">{`Chat >`}</button>
         </div>
       </div>
