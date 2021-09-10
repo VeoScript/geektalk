@@ -9,12 +9,12 @@ const ChatParticipants: React.FC = () => {
       <div className="flex flex-col w-full px-3 overflow-y-auto space-y-2">
         <div className="flex flex-row items-center w-full space-x-2">
           <div className="font-light text-xs text-cyber-white text-opacity-50">
-            {`>`} <span className="text-cyber-white text-opacity-50">unknown_hacker</span>
+            &gt; <span className="text-cyber-white text-opacity-50">unknown_hacker</span>
           </div>
         </div>
         <div className="flex flex-row items-center w-full space-x-2">
           <div className="font-light text-xs text-cyber-white text-opacity-50">
-            {`>`} <span className="text-cyber-white text-opacity-50">little_boy</span>
+            &gt; <span className="text-cyber-white text-opacity-50">little_boy</span>
           </div>
         </div>
       </div>
