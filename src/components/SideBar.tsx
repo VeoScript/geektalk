@@ -5,7 +5,7 @@ const SideBar: React.FC = () => {
   return (
     <div className="flex flex-col w-full h-full py-5 space-y-5">
       <div className="flex flex-col w-full max-w-xl px-3 space-y-1">
-        <h1 className="font-bold text-xl text-cyber-white">GeekTalk💻</h1>
+        <h1 className="font-bold text-xl text-cyber-white">{`>`} GeekTalk💻</h1>
       </div>
       <div className="flex flex-col w-full space-y-2">
         <div className="flex flex-row items-center justify-between w-full px-3">
@@ -21,7 +21,7 @@ const SideBar: React.FC = () => {
       <div className="flex flex-col w-full h-full px-3 space-y-2">
         <div className="flex flex-row items-center justify-between w-full">
           <h5 className="font-light text-sm"><span className="text-cyber-white">$</span> Server Name</h5>
-          <button className="font-light text-sm text-cyber-white hover:underline">{`Chat >`}</button>
+          <button className="font-light text-xs text-cyber-white hover:underline">{`> Chat`}</button>
         </div>
       </div>
     </div>
