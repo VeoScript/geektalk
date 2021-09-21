@@ -9,7 +9,7 @@ const SideBar: React.FC = () => {
       </div>
       <div className="flex flex-col w-full space-y-2">
         <div className="flex flex-col w-full px-3 space-y-1">
-          <Link href="/discover-servers">
+          <Link href="/">
             <a className="font-light text-sm text-cyber-white text-opacity-80 hover:underline"><span className="text-cyber-white text-opacity-50">&gt;</span> Discover Servers</a>
           </Link>
           <Link href="/create-server">
@@ -27,7 +27,7 @@ const SideBar: React.FC = () => {
       <div className="flex flex-col w-full h-full px-3 space-y-2">
         <div className="flex flex-row items-center justify-between w-full">
           <h5 className="font-light text-sm"><span className="text-cyber-white text-opacity-50">$</span> Global Server</h5>
-          <Link href="/">
+          <Link href="/server">
             <a className="font-light text-xs text-cyber-white hover:underline">&gt; Chat</a>
           </Link>
         </div>
