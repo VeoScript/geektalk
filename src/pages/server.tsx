@@ -12,7 +12,7 @@ const Server: NextPage = () => {
   return (
     <React.Fragment>
       <Head>
-        <title>GeekTalk</title>
+        <title>Server Name | GeekTalk</title>
       </Head>
       <Layout>
         <div className="relative flex flex-row w-full max-w-full h-full overflow-hidden">

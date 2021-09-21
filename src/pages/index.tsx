@@ -1,15 +1,24 @@
+import type { NextPage } from 'next'
 import React from 'react'
 import Head from 'next/head'
-import { useRouter } from 'next/router'
+import Layout from '~/layouts/default'
+import ServerHeader from '~/components/ServersTerminal/ServerHeader'
+import ServerBody from '~/components/ServersTerminal/ServerBody'
 
-export default function Index() {
-  const router = useRouter()
-  React.useEffect(() => {
-    router.push('/discover-servers')
-  })
-  return(
-    <Head>
-      <title>GeekTalk</title>
-    </Head>
+const DiscoverServers: NextPage = () => {
+  return (
+    <React.Fragment>
+      <Head>
+        <title>Discover Servers | GeekTalk</title>
+      </Head>
+      <Layout>
+        <div className="relative flex flex-col w-full max-w-full h-full overflow-hidden">
+          <ServerHeader />
+          <ServerBody />
+        </div>
+      </Layout>
+    </React.Fragment>
   )
 }
+
+export default DiscoverServers
