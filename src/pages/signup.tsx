@@ -1,15 +1,38 @@
 import type { NextPage } from 'next'
+import { useForm } from 'react-hook-form'
 import React from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
-import { useForm } from 'react-hook-form'
+import Router from 'next/router'
+
+interface FormData {
+  name: any
+  username: any
+  phone: any
+  email: any
+  password: any
+  repassword: any
+}
 
 const SignUp: NextPage = () => {
 
-  const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm()
+  const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm<FormData>()
 
-  async function handleSignUp(formData: any) {
+  async function handleSignUp(formData: FormData) {
+    const name = formData.name
+    const username = formData.username
+    const phone = formData.phone
+    const email = formData.email
+    const password = formData.password
+    const repassword = formData.repassword
+
+    await fetch('/api/auth/signup'), {
+      method: 'POST',
+      body: JSON.stringify(formData)
+    }
     console.log(formData)
+    reset()
+    // Router.replace('/signin')
   }
 
   return (
@@ -30,9 +53,9 @@ const SignUp: NextPage = () => {
                   className="font-light text-base px-5 py-3 w-full bg-cyber-black border border-cyber-white border-opacity-20 focus:border-cyber-green focus:outline-none"
                   type="text"
                   placeholder="Full Name"
-                  {...register("fullname", { required: true })}
+                  {...register("name", { required: true })}
                 />
-                {errors.fullname && <span className="font-light text-[10px] text-cyber-white ml-1">Full Name is required</span>}
+                {errors.name && <span className="font-light text-[10px] text-cyber-white ml-1">Full Name is required</span>}
               </div>
               <div className="form-control flex flex-col w-full space-y-1.5">
                 <input
