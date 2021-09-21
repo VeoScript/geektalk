@@ -9,3 +9,37 @@ datasource db {
 generator client {
   provider = "prisma-client-js"
 }
+
+model Users {
+  id                      String                @id             @default(cuid())
+  name                    String
+  username                String                @unique
+  phone                   String                @unique
+  email                   String                @unique
+  password                String
+  chats                   Chats[]
+}
+
+model Servers {
+  id                      String                @id             @default(cuid())
+  name                    String                @unique
+  joined_servers          JoinedServers[]
+  chats                   Chats[]
+}
+
+model JoinedServers {
+  id                      String                @id             @default(cuid())
+  date                    DateTime                              @default(now())
+  indicator               Boolean                               @default(true)
+  servers                 Servers                               @relation(fields: [serverId], references: [id])
+  serverId                String
+}
+
+model Chats {
+  id                      String                @id             @default(cuid())
+  message                 String
+  users                   Users                                 @relation(fields: [userId], references: [id])
+  userId                  String
+  servers                 Servers                               @relation(fields: [serverId], references: [id])
+  serverId                String
+}
