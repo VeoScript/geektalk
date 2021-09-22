@@ -9,16 +9,16 @@ import ServerHeader from '~/components/ServersTerminal/ServerHeader'
 import ServerBody from '~/components/ServersTerminal/ServerBody'
 
 interface GeekProps {
-  hostname: any
+  host: any
 }
 
-const DiscoverServers: NextPage<GeekProps> = ({ hostname }) => {
+const DiscoverServers: NextPage<GeekProps> = ({ host }) => {
   return (
     <React.Fragment>
       <Head>
         <title>Discover Servers | GeekTalk</title>
       </Head>
-      <Layout hostname={hostname}>
+      <Layout host={host}>
         <div className="relative flex flex-col w-full max-w-full h-full overflow-hidden">
           <ServerHeader />
           <ServerBody />
@@ -40,7 +40,7 @@ export const getServerSideProps: GetServerSideProps = withSession(async function
     }
   }
 
-  const hostname = await prisma.user.findFirst({
+  const host = await prisma.user.findFirst({
     where: {
       username: user.username
     }
@@ -48,7 +48,7 @@ export const getServerSideProps: GetServerSideProps = withSession(async function
 
   return {
     props: {
-      hostname
+      host
     }
   }
 })
