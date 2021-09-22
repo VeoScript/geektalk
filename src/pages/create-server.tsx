@@ -10,16 +10,16 @@ import CreateServerBody from '~/components/CreateServer/ServerBody'
 import CreateServerForm from '~/components/CreateServer/ServerForm'
 
 interface GeekProps {
-  hostname: any
+  host: any
 }
 
-const CreateServer: NextPage<GeekProps> = ({ hostname }) => {
+const CreateServer: NextPage<GeekProps> = ({ host }) => {
   return (
     <React.Fragment>
       <Head>
         <title>Create Server | GeekTalk</title>
       </Head>
-      <Layout hostname={hostname}>
+      <Layout host={host}>
         <div className="relative flex flex-col w-full max-w-full h-full overflow-hidden">
           <CreateServerHeader />
           <CreateServerForm />
@@ -42,7 +42,7 @@ export const getServerSideProps: GetServerSideProps = withSession(async function
     }
   }
 
-  const hostname = await prisma.user.findFirst({
+  const host = await prisma.user.findFirst({
     where: {
       username: user.username
     }
@@ -50,7 +50,7 @@ export const getServerSideProps: GetServerSideProps = withSession(async function
 
   return {
     props: {
-      hostname
+      host
     }
   }
 })

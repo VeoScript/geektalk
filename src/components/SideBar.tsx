@@ -3,10 +3,10 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 interface GeekProps {
-  hostname: any
+  host: any
 }
 
-const SideBar: React.FC<GeekProps> = ({ hostname }) => {
+const SideBar: React.FC<GeekProps> = ({ host }) => {
 
   const router = useRouter()
 
@@ -19,7 +19,7 @@ const SideBar: React.FC<GeekProps> = ({ hostname }) => {
         <div className="flex flex-col w-full px-3 space-y-1">
           <div className="flex items-center mb-3 w-full space-x-1 font-light text-sm text-cyber-white text-opacity-80">
             <span className="text-cyber-green text-xl">&bull;</span>
-            <h6>{ hostname.name }</h6>
+            <h6>{ host.name }</h6>
           </div>
           <Link href="/">
             <a className={`${ router.pathname === '/' ? 'text-cyber-violet' : 'text-cyber-white text-opacity-80' } font-light text-sm hover:underline`}><span className="text-cyber-white text-opacity-50">&gt;</span> Discover Servers</a>

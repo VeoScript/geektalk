@@ -12,16 +12,16 @@ import ChatForm from '~/components/ChatTerminal/ChatForm'
 import ChatParticipants from '~/components/ChatTerminal/ChatParticipants'
 
 interface GeekProps {
-  hostname: any
+  host: any
 }
 
-const Server: NextPage<GeekProps> = ({ hostname }) => {
+const Server: NextPage<GeekProps> = ({ host }) => {
   return (
     <React.Fragment>
       <Head>
         <title>Server Name | GeekTalk</title>
       </Head>
-      <Layout hostname={hostname}>
+      <Layout host={host}>
         <div className="relative flex flex-row w-full max-w-full h-full overflow-hidden">
           <div className="flex flex-col w-full">
             <ChatHeader />
@@ -49,7 +49,7 @@ export const getServerSideProps: GetServerSideProps = withSession(async function
     }
   }
 
-  const hostname = await prisma.user.findFirst({
+  const host = await prisma.user.findFirst({
     where: {
       username: user.username
     }
@@ -57,7 +57,7 @@ export const getServerSideProps: GetServerSideProps = withSession(async function
 
   return {
     props: {
-      hostname
+      host
     }
   }
 })
