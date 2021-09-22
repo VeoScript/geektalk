@@ -1,18 +1,84 @@
 import type { NextPage } from 'next'
+import { GetServerSideProps } from 'next'
+import { useForm } from 'react-hook-form'
+import toast, { Toaster } from 'react-hot-toast'
 import React from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
-import { useForm } from 'react-hook-form'
+import Router from 'next/router'
+import bcrypt from 'bcryptjs'
+import useSWR from 'swr'
+import withSession from '~/lib/Session'
+
+interface FormData {
+  email: string
+  password: string
+}
+
+const fetcher = async (
+  input: RequestInfo,
+  init: RequestInit,
+  ...args: any[]
+) => {
+  const res = await fetch(input, init)
+  return res.json()
+}
 
 const SignIn: NextPage = () => {
 
-  const router = useRouter()
-  const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm()
+  const { data: users } = useSWR('/api/auth/users', fetcher, {
+    refreshInterval: 1000
+  })
+  
+  const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm<FormData>()
 
-  async function handleLogin(formData: any) {
-    console.log(formData)
-    router.push('/')
+  async function handleLogin(formData: FormData) {
+    const email = formData.email
+    const password = formData.password
+
+    const credentials = users.find((user: { email: string }) => user.email === email)
+
+    if (!credentials) {
+      toast('Account not register, try to sign up first.',
+        {
+          icon: '🛡️',
+          style: {
+            borderRadius: '10px',
+            background: '#333',
+            color: '#fff',
+          },
+        }
+      )
+      return
+    }
+
+    const hashPassword = credentials.password
+    const matchPassword = await bcrypt.compare(password, hashPassword)
+
+    if (!matchPassword) {
+      toast('Password is incorrect!',
+        {
+          icon: '❌',
+          style: {
+            borderRadius: '10px',
+            background: '#333',
+            color: '#fff',
+          },
+        }
+      )
+      return
+    }
+
+    await fetch('/api/auth/signin', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ email, password })
+    })
+
+    reset()
+    Router.push('/')
   }
 
   return (
@@ -20,6 +86,10 @@ const SignIn: NextPage = () => {
       <Head>
         <title>Sign In | GeekTalk</title>
       </Head>
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+      />
       <div className="font-firacode flex flex-row items-center justify-center w-full h-screen cursor-default bg-cyber-black text-cyber-green">
         <div className="flex flex-col items-center justify-center w-full h-full space-y-5">
           <div className="flex flex-col items-center text-center w-full max-w-xl space-y-3">
@@ -80,5 +150,22 @@ const SignIn: NextPage = () => {
     </React.Fragment>
   )
 }
+
+export const getServerSideProps: GetServerSideProps = withSession(async function (context: any) {
+  const user = context.req.session.get('user')
+
+  if (user) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    }
+  }
+
+  return {
+    props: {}
+  }
+})
 
 export default SignIn
