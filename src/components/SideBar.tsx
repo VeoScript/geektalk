@@ -1,7 +1,15 @@
 import React from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
-const SideBar: React.FC = () => {
+interface GeekProps {
+  hostname: any
+}
+
+const SideBar: React.FC<GeekProps> = ({ hostname }) => {
+
+  const router = useRouter()
+
   return (
     <div className="flex flex-col w-full h-full py-5 space-y-5">
       <div className="flex flex-col w-full max-w-xl px-3 space-y-1">
@@ -9,18 +17,33 @@ const SideBar: React.FC = () => {
       </div>
       <div className="flex flex-col w-full space-y-2">
         <div className="flex flex-col w-full px-3 space-y-1">
+          <div className="flex items-center mb-3 w-full space-x-1 font-light text-sm text-cyber-white text-opacity-80">
+            <span className="text-cyber-green text-xl">&bull;</span>
+            <h6>{ hostname.name }</h6>
+          </div>
           <Link href="/">
-            <a className="font-light text-sm text-cyber-white text-opacity-80 hover:underline"><span className="text-cyber-white text-opacity-50">&gt;</span> Discover Servers</a>
+            <a className={`${ router.pathname === '/' ? 'text-cyber-violet' : 'text-cyber-white text-opacity-80' } font-light text-sm hover:underline`}><span className="text-cyber-white text-opacity-50">&gt;</span> Discover Servers</a>
           </Link>
           <Link href="/create-server">
-            <a className="font-light text-sm text-cyber-violet hover:underline"><span className="text-cyber-white text-opacity-50">&gt;</span> Create Server</a>
+            <a className={`${ router.pathname === '/create-server' ? 'text-cyber-violet' : 'text-cyber-white text-opacity-80' } font-light text-sm hover:underline`}><span className="text-cyber-white text-opacity-50">&gt;</span> Create Server</a>
           </Link>
-          <Link href="/">
-            <a className="font-light text-sm text-cyber-white text-opacity-80 hover:underline"><span className="text-cyber-white text-opacity-50">&gt;</span> Settings</a>
+          <Link href="/settings">
+            <a className={`${ router.pathname === '/settings' ? 'text-cyber-violet' : 'text-cyber-white text-opacity-80' } font-light text-sm hover:underline`}><span className="text-cyber-white text-opacity-50">&gt;</span> Settings</a>
           </Link>
-          <Link href="/signin">
-            <a className="font-light text-sm text-red-500 hover:underline"><span className="text-cyber-white text-opacity-50">&gt;</span> Signout</a>
-          </Link>
+          <button
+            className="flex w-full font-light text-sm text-cyber-white text-opacity-80 hover:underline"
+            onClick={async () => {
+              await fetch('/api/auth/signout', {
+                method: 'POST',
+                headers : { 
+                  'Content-Type': 'application/json',
+                }
+              })
+              router.push('/signin')
+            }}
+          >
+            <span className="text-cyber-white text-opacity-50">&gt;</span>&nbsp;Signout
+          </button>
         </div>
         <span className="border-b border-cyber-white border-opacity-10" />
       </div>
