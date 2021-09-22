@@ -1,4 +1,5 @@
 import type { NextPage } from 'next'
+import { GetServerSideProps } from 'next'
 import { useForm } from 'react-hook-form'
 import toast, { Toaster } from 'react-hot-toast'
 import React from 'react'
@@ -6,6 +7,7 @@ import Router from 'next/router'
 import Head from 'next/head'
 import Link from 'next/link'
 import useSWR from 'swr'
+import withSession from '~/lib/Session'
 
 interface FormData {
   name: string
@@ -218,5 +220,22 @@ const SignUp: NextPage = () => {
     </React.Fragment>
   )
 }
+
+export const getServerSideProps: GetServerSideProps = withSession(async function (context: any) {
+  const user = context.req.session.get('user')
+
+  if (user) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    }
+  }
+
+  return {
+    props: {}
+  }
+})
 
 export default SignUp
