@@ -1,38 +1,115 @@
 import type { NextPage } from 'next'
 import { useForm } from 'react-hook-form'
+import toast, { Toaster } from 'react-hot-toast'
 import React from 'react'
+import Router from 'next/router'
 import Head from 'next/head'
 import Link from 'next/link'
-import Router from 'next/router'
+import useSWR from 'swr'
 
 interface FormData {
-  name: any
-  username: any
-  phone: any
-  email: any
-  password: any
-  repassword: any
+  name: string
+  username: string
+  phone: string
+  email: string
+  password: string
+  repassword: string
+}
+
+const fetcher = async (
+  input: RequestInfo,
+  init: RequestInit,
+  ...args: any[]
+) => {
+  const res = await fetch(input, init)
+  return res.json()
 }
 
 const SignUp: NextPage = () => {
 
+  const { data: users } = useSWR('/api/auth/users', fetcher, {
+    refreshInterval: 1000
+  })
+  
   const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm<FormData>()
 
   async function handleSignUp(formData: FormData) {
-    const name = formData.name
     const username = formData.username
     const phone = formData.phone
     const email = formData.email
     const password = formData.password
     const repassword = formData.repassword
 
-    await fetch('/api/auth/signup'), {
-      method: 'POST',
-      body: JSON.stringify(formData)
+    const phone_credential = users.some((user: { phone: string }) => user.phone === phone)
+    const username_credential = users.some((user: { username: string }) => user.username === username)
+    const email_credential = users.some((user: { email: string }) => user.email === email)
+
+    if (username_credential) {
+      toast('Username is already exist.',
+        {
+          icon: '🛡️',
+          style: {
+            borderRadius: '10px',
+            background: '#333',
+            color: '#fff',
+          },
+        }
+      )
+      return
     }
-    console.log(formData)
+
+    if (phone_credential) {
+      toast('The phone number is already exist.',
+        {
+          icon: '🛡️',
+          style: {
+            borderRadius: '10px',
+            background: '#333',
+            color: '#fff',
+          },
+        }
+      )
+      return
+    }
+
+    if (email_credential) {
+      toast('Email is already exist.',
+        {
+          icon: '🛡️',
+          style: {
+            borderRadius: '10px',
+            background: '#333',
+            color: '#fff',
+          },
+        }
+      )
+      return
+    }
+
+    if (password !== repassword) {
+      toast('Password not matched, try again.',
+        {
+          icon: '🛡️',
+          style: {
+            borderRadius: '10px',
+            background: '#333',
+            color: '#fff',
+          },
+        }
+      )
+      return
+    }
+
+    await fetch('/api/auth/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    })
+    
     reset()
-    // Router.replace('/signin')
+    Router.replace('/signin')
   }
 
   return (
@@ -40,6 +117,10 @@ const SignUp: NextPage = () => {
       <Head>
         <title>Sign Up | GeekTalk</title>
       </Head>
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+      />
       <div className="font-firacode flex flex-row items-center justify-center w-full h-screen cursor-default bg-cyber-black text-cyber-green">
         <div className="flex flex-col items-center justify-center w-full h-full space-y-5">
           <div className="flex flex-col items-center text-center w-full max-w-xl space-y-3">
@@ -101,9 +182,9 @@ const SignUp: NextPage = () => {
                   className="font-light text-base px-5 py-3 w-full bg-cyber-black border border-cyber-white border-opacity-20 focus:border-cyber-green focus:outline-none"
                   type="password"
                   placeholder="Re-type Password"
-                  {...register("password", { required: true })}
+                  {...register("repassword", { required: true })}
                 />
-                {errors.password && <span className="font-light text-[10px] text-cyber-white ml-1">Password is required</span>}
+                {errors.repassword && <span className="font-light text-[10px] text-cyber-white ml-1">Password is required</span>}
               </div>
             </div>
             <div className="form-control flex w-full">
