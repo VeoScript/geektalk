@@ -1,32 +1,14 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { withIronSession, Session } from 'next-iron-session'
-import prisma from '~/lib/Prisma'
 type NextIronRequest = NextApiRequest & { session: Session }
 
 async function handler(
   req: NextIronRequest,
   res: NextApiResponse,
 ): Promise<void> {
-  // get user from prisma
-  const findUser = await prisma.user.findMany({
-    where: {
-      email: req.body.email
-    },
-    select: {
-      id: true,
-      username: true
-    }
-  })
-  const getId = findUser[0].id
-  const getUsername = findUser[0].username
-  // get user from database then:
-  req.session.set('user', {
-    id: getId,
-    username: getUsername,
-    admin: true
-  })
-  await req.session.save()
-  res.send('Logged in')
+  
+  req.session.destroy()
+  res.send("Logged out")
 }
 
 export default withIronSession(handler, {
