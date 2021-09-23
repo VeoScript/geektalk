@@ -2,6 +2,10 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import useSWR from 'swr'
 
+type GeekProps = {
+  host: any
+}
+
 interface FormData {
   server_name: string
 }
@@ -15,7 +19,7 @@ const fetcher = async (
   return res.json()
 }
 
-const CreateServerForm: React.FC = () => {
+const CreateServerForm: React.FC<GeekProps> = ({ host }) => {
 
   const { data: servers } = useSWR('/api/server', fetcher, {
     refreshInterval: 1000
@@ -24,6 +28,7 @@ const CreateServerForm: React.FC = () => {
   const { register, handleSubmit, setError, reset, formState: { errors, isSubmitting } } = useForm<FormData>()
 
   async function handleCreate(formData: FormData) {
+    const user_id = host.id
     const server_name = formData.server_name
     const check_server = servers.find((server: { name: string }) => server.name === server_name)
 
@@ -40,7 +45,10 @@ const CreateServerForm: React.FC = () => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(formData)
+      body: JSON.stringify({
+        user_id,
+        server_name
+      })
     })
     reset()
   }
