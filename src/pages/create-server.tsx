@@ -22,7 +22,7 @@ const CreateServer: NextPage<GeekProps> = ({ host }) => {
       <Layout host={host}>
         <div className="relative flex flex-col w-full max-w-full h-full overflow-hidden">
           <CreateServerHeader />
-          <CreateServerForm />
+          <CreateServerForm host={host} />
           <CreateServerBody />
         </div>
       </Layout>

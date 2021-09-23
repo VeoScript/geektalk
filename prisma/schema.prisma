@@ -17,6 +17,8 @@ model User {
   phone                   String                @unique
   email                   String                @unique
   password                String
+  server                  Server[]
+  joined_server           JoinedServer[]
   chats                   Chat[]
 }
 
@@ -26,6 +28,8 @@ model Server {
   date                    DateTime
   joined_servers          JoinedServer[]
   chats                   Chat[]
+  user                    User                                  @relation(fields: [userId], references: [id])
+  userId                  String
 }
 
 model JoinedServer {
@@ -34,14 +38,16 @@ model JoinedServer {
   indicator               Boolean                               @default(true)
   servers                 Server                                @relation(fields: [serverId], references: [id])
   serverId                String
+  user                    User                                  @relation(fields: [userId], references: [id])
+  userId                  String
 }
 
 model Chat {
   id                      String                @id             @default(uuid())
   message                 String
   date                    DateTime
-  users                   User                                  @relation(fields: [userId], references: [id])
-  userId                  String
   servers                 Server                                @relation(fields: [serverId], references: [id])
   serverId                String
+  user                    User                                  @relation(fields: [userId], references: [id])
+  userId                  String
 }
