@@ -24,7 +24,10 @@ const CreateServer: NextPage<GeekProps> = ({ host, user_created_servers }) => {
         <div className="relative flex flex-col w-full max-w-full h-full overflow-hidden">
           <CreateServerHeader />
           <CreateServerForm host={host} />
-          <CreateServerBody user_created_servers={user_created_servers} />
+          <CreateServerBody
+            host={host}
+            user_created_servers={user_created_servers}
+          />
         </div>
       </Layout>
     </React.Fragment>

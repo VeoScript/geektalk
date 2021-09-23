@@ -1,13 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import prisma from '~/lib/Prisma'
-import { Session } from 'next-iron-session'
-type NextIronRequest = NextApiRequest & { session: Session }
 
-export default async function handler(req: NextIronRequest, res: NextApiResponse): Promise<void> {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'GET') {
     res.status(500).json('GET Method Only')
   } else {
-    const user = req.session.get('user')
+    const { userId } = req.query  
     const user_created_servers = await prisma.server.findMany({
       orderBy: [
         {
@@ -15,7 +13,7 @@ export default async function handler(req: NextIronRequest, res: NextApiResponse
         }
       ],
       where: {
-        userId: user.id
+        userId: String(userId)
       },
       select: {
         id: true,
