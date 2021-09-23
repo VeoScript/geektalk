@@ -21,7 +21,7 @@ const fetcher = async (
 
 const CreateServerForm: React.FC<GeekProps> = ({ host }) => {
 
-  const { data: servers } = useSWR('/api/server/get/servers', fetcher, {
+  const { data: servers, mutate } = useSWR('/api/server/get/servers', fetcher, {
     refreshInterval: 1000
   })
 
@@ -51,6 +51,7 @@ const CreateServerForm: React.FC<GeekProps> = ({ host }) => {
       })
     })
     reset()
+    mutate(`/api/server/get/created_servers/${host.id}`)
   }
 
   return (
