@@ -11,9 +11,10 @@ import CreateServerForm from '~/components/CreateServer/ServerForm'
 
 interface GeekProps {
   host: any
+  user_created_servers: any
 }
 
-const CreateServer: NextPage<GeekProps> = ({ host }) => {
+const CreateServer: NextPage<GeekProps> = ({ host, user_created_servers }) => {
   return (
     <React.Fragment>
       <Head>
@@ -23,7 +24,7 @@ const CreateServer: NextPage<GeekProps> = ({ host }) => {
         <div className="relative flex flex-col w-full max-w-full h-full overflow-hidden">
           <CreateServerHeader />
           <CreateServerForm host={host} />
-          <CreateServerBody />
+          <CreateServerBody user_created_servers={user_created_servers} />
         </div>
       </Layout>
     </React.Fragment>
@@ -48,9 +49,25 @@ export const getServerSideProps: GetServerSideProps = withSession(async function
     }
   })
 
+  const user_created_servers = await prisma.server.findMany({
+    orderBy: [
+      {
+        date: 'desc'
+      }
+    ],
+    where: {
+      userId: user.id
+    },
+    select: {
+      id: true,
+      name: true
+    }
+  })
+
   return {
     props: {
-      host
+      host,
+      user_created_servers
     }
   }
 })

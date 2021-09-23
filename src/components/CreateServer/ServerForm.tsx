@@ -21,7 +21,7 @@ const fetcher = async (
 
 const CreateServerForm: React.FC<GeekProps> = ({ host }) => {
 
-  const { data: servers } = useSWR('/api/server', fetcher, {
+  const { data: servers } = useSWR('/api/server/get/servers', fetcher, {
     refreshInterval: 1000
   })
 
@@ -40,7 +40,7 @@ const CreateServerForm: React.FC<GeekProps> = ({ host }) => {
       return
     }
 
-    await fetch('/api/server/create', {
+    await fetch('/api/server/post/create_server', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
