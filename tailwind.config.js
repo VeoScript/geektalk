@@ -18,7 +18,7 @@ module.exports = {
         'cyber-violet': '#A164F0'
       },
       fontFamily: {
-        synemono: ['Syne Mono', ...defaultTheme.fontFamily.serif],
+        pangolin: ['Pangolin', ...defaultTheme.fontFamily.serif],
       }
     },
   },

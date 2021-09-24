@@ -62,7 +62,7 @@ const CreateServerForm: React.FC<GeekProps> = ({ host }) => {
           <span className="text-cyber-white text-opacity-50"> : </span>&nbsp;
           {!isSubmitting && (
             <input
-              className="font-light text-cyber-white bg-cyber-dim focus:outline-none"
+              className="w-full max-w-sm font-light text-cyber-white bg-cyber-dim focus:outline-none"
               type="text"
               placeholder="Type here..."
               {...register("server_name", {
