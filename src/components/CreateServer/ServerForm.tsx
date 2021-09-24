@@ -58,11 +58,11 @@ const CreateServerForm: React.FC<GeekProps> = ({ host }) => {
     <div className="flex flex-col w-full py-5 px-3 bg-cyber-dim border-b border-cyber-white border-opacity-10">
       <form onSubmit={handleSubmit(handleCreate)} className="flex flex-row items-center justify-between w-full">
         <div className="flex flex-row items-center w-full font-light text-base">
-          <span className="text-cyber-white text-opacity-50">&gt;</span>&nbsp;Server Name&nbsp;
+          <span className="text-cyber-white text-opacity-50">&gt;</span>&nbsp;Enter Server Name&nbsp;
           <span className="text-cyber-white text-opacity-50"> : </span>&nbsp;
           {!isSubmitting && (
             <input
-              className="w-full max-w-sm font-light text-cyber-white bg-cyber-dim focus:outline-none"
+              className="font-light text-cyber-white bg-cyber-dim focus:outline-none"
               type="text"
               placeholder="Type here..."
               {...register("server_name", {

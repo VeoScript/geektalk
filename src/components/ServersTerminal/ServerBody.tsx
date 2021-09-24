@@ -1,5 +1,7 @@
 import React from 'react'
 import useSWR from 'swr'
+import JoinPublic from './JoinServer/Public'
+import JoinPrivate from './JoinServer/Private'
 
 interface GeekProps {
   servers: any
@@ -28,12 +30,8 @@ const ServerBody: React.FC<GeekProps> = ({ servers }) => {
           <div className="flex w-full text-cyber-white text-opacity-80 text-base px-3 py-5">
             <span className="text-cyber-white text-opacity-50">$</span>&nbsp;{ server.name }
           </div>
-          <button 
-            className="flex items-center justify-end w-full max-w-[6rem] px-5 font-light text-sm text-cyber-white hover:underline focus:outline-none"
-            type="submit"
-          >
-            &gt; Join
-          </button>
+          <JoinPublic server={server} />
+          {/* <JoinPrivate server={server} /> */}
         </div>
       ))}
     </div>
