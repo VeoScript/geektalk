@@ -26,7 +26,7 @@ const CreateServerBody: React.FC<GeekProps> = ({ host, user_created_servers }) =
     <div className="flex flex-col w-full h-full overflow-y-auto bg-cyber-dim">
       {my_servers.map((server: any, i: any) => (
         <div className="flex flex-row justify-between w-full" key={i}>
-          <div className="flex w-full text-cyber-violet text-lg px-3 py-5 border-b border-cyber-white border-opacity-10">
+          <div className="flex w-full text-cyber-yellow text-base px-3 py-5 border-b border-cyber-white border-opacity-10">
             <span className="text-cyber-white text-opacity-50">$</span>&nbsp;{ server.name }
           </div>
         </div>
