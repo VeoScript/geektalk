@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@headlessui/react": "^1.4.1",
     "autoprefixer": "^10.3.4",
     "bcryptjs": "^2.4.3",
     "jwt-simple": "^0.5.6",
