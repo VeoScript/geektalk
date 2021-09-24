@@ -18,7 +18,7 @@ module.exports = {
         'cyber-violet': '#A164F0'
       },
       fontFamily: {
-        firacode: ['Fira Code', ...defaultTheme.fontFamily.mono],
+        synemono: ['Syne Mono', ...defaultTheme.fontFamily.serif],
       }
     },
   },
