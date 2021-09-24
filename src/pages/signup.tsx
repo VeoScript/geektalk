@@ -123,7 +123,7 @@ const SignUp: NextPage = () => {
         position="top-center"
         reverseOrder={false}
       />
-      <div className="font-synemono flex flex-row items-center justify-center w-full h-screen cursor-default bg-cyber-black text-cyber-green">
+      <div className="font-pangolin flex flex-row items-center justify-center w-full h-screen cursor-default bg-cyber-black text-cyber-green">
         <div className="flex flex-col items-center justify-center w-full h-full space-y-5">
           <div className="flex flex-col items-center text-center w-full max-w-xl space-y-3">
             <h1 className="font-bold text-3xl text-cyber-white">&gt; GeekTalk💻</h1>
