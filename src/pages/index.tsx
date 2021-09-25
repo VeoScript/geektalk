@@ -55,7 +55,9 @@ export const getServerSideProps: GetServerSideProps = withSession(async function
     ],
     select: {
       id: true,
-      name: true
+      name: true,
+      status: true,
+      passcode: true
     }
   })
 
