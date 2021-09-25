@@ -27,7 +27,7 @@ const CreateServerForm: React.FC<GeekProps> = ({ host }) => {
     refreshInterval: 1000
   })
 
-  const { register, handleSubmit, setError, reset, clearErrors, formState: { errors, isSubmitting } } = useForm<FormData>()
+  const { register, handleSubmit, setError, setValue, reset, clearErrors, formState: { errors, isSubmitting } } = useForm<FormData>()
 
   const [serverStatus, setServerStatus] = React.useState(false)
 
@@ -40,21 +40,26 @@ const CreateServerForm: React.FC<GeekProps> = ({ host }) => {
   }
 
   function changeStatus(e: any) {
+    setValue('server_status', (e.target.value), {
+      shouldValidate: true,
+      shouldDirty: true
+    })
     if (e.target.value === '') {
       onPublic()
-    }
-    if (e.target.value === 'Private' || e.target.value === 'PRIVATE' || e.target.value === 'private' || e.target.value === 'Public' || e.target.value === 'PUBLIC' || e.target.value === 'public') {
-      if (e.target.value === 'Private' || e.target.value === 'private' || e.target.value === 'PRIVATE') {
-        onPrivate()
-      } else {
-        onPublic()
-      }
-      clearErrors('server_status')
     } else {
-      setError('server_status', {
-        type: 'manual',
-        message: 'Invalid server status, type Public or Private only.',
-      })
+      if (e.target.value === 'Private' || e.target.value === 'PRIVATE' || e.target.value === 'private' || e.target.value === 'Public' || e.target.value === 'PUBLIC' || e.target.value === 'public') {
+        if (e.target.value === 'Private' || e.target.value === 'private' || e.target.value === 'PRIVATE') {
+          onPrivate()
+        } else {
+          onPublic()
+        }
+        clearErrors('server_status')
+      } else {
+        setError('server_status', {
+          type: 'manual',
+          message: 'Invalid server status, type Public or Private only.',
+        })
+      }
     }
   }
 
@@ -117,6 +122,7 @@ const CreateServerForm: React.FC<GeekProps> = ({ host }) => {
       }
     
       reset()
+      onPublic()
       mutate(`/api/server/get/created_servers/${host.id}`)
     } else {
       setError('server_status', {
@@ -194,14 +200,14 @@ const CreateServerForm: React.FC<GeekProps> = ({ host }) => {
             className="flex items-center justify-end font-light text-sm text-cyber-white hover:underline focus:outline-none"
             type="submit"
           >
-            Create
+            <span className="text-cyber-white text-opacity-50">&gt;</span>&nbsp;Create
           </button>
           <button 
             className="flex items-center justify-end font-light text-sm text-red-500 hover:underline focus:outline-none"
             type="button"
             onClick={() => reset()}
           >
-            Cancel
+            <span className="text-cyber-white text-opacity-50">&gt;</span>&nbsp;Cancel
           </button>
         </div>
       </form>
