@@ -30,7 +30,7 @@ const CreateServerBody: React.FC<GeekProps> = ({ host, user_created_servers }) =
             <span className="text-cyber-white text-opacity-50">$</span>&nbsp;{ server.name }
           </div>
           <button 
-            className="flex items-center justify-end w-full max-w-[6rem] px-5 font-light text-sm text-cyber-white hover:underline focus:outline-none"
+            className="flex items-center justify-end w-full max-w-[6rem] px-5 font-light text-sm text-red-500 hover:underline focus:outline-none"
             type="submit"
           >
             &gt; Delete
