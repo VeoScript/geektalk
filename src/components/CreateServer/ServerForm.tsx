@@ -141,16 +141,23 @@ const CreateServerForm: React.FC<GeekProps> = ({ host }) => {
               <span className="text-cyber-white text-opacity-50">&gt;</span>&nbsp;Server Name&nbsp;
               <span className="text-cyber-white text-opacity-50"> : </span>&nbsp;
             </div>
-            <div className="form-control">
-              <input
-                className="font-light text-cyber-white bg-cyber-dim focus:outline-none"
-                type="text"
-                placeholder="Type here..."
-                {...register("server_name", {
-                  required: true
-                })}
-              />
-            </div>
+            {!isSubmitting && (
+              <div className="form-control">
+                <input
+                  className="font-light text-cyber-white bg-cyber-dim focus:outline-none"
+                  type="text"
+                  placeholder="Type here..."
+                  {...register("server_name", {
+                    required: true
+                  })}
+                />
+              </div>
+            )}
+            {isSubmitting && (
+              <div className="font-light text-cyber-white bg-cyber-dim focus:outline-none">
+                Creating...
+              </div>
+            )}
           </div>
           {errors.server_name && <p className="font-light text-xs text-red-500">{errors.server_name.message || 'Server name cannot be empty.'}</p>}
         </div>
@@ -160,17 +167,24 @@ const CreateServerForm: React.FC<GeekProps> = ({ host }) => {
               <span className="text-cyber-white text-opacity-50">&gt;</span>&nbsp;Server Status&nbsp;
               <span className="text-cyber-white text-opacity-50"> : </span>&nbsp;
             </div>
-            <div className="form-control">
-              <input
-                className="font-light text-cyber-white bg-cyber-dim focus:outline-none"
-                type="text"
-                placeholder="Type Public or Private..."
-                {...register("server_status", {
-                  required: true
-                })}
-                onChange={changeStatus}
-              />
-            </div>
+            {!isSubmitting && (
+              <div className="form-control">
+                <input
+                  className="font-light text-cyber-white bg-cyber-dim focus:outline-none"
+                  type="text"
+                  placeholder="Type Public or Private..."
+                  {...register("server_status", {
+                    required: true
+                  })}
+                  onChange={changeStatus}
+                />
+              </div>
+            )}
+            {isSubmitting && (
+              <div className="font-light text-cyber-white bg-cyber-dim focus:outline-none">
+                Processing...
+              </div>
+            )}
           </div>
           {errors.server_status && <p className="font-light text-xs text-red-500">{errors.server_status.message || 'Server status cannot be empty.'}</p>}
         </div>
