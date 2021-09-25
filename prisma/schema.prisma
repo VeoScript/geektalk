@@ -38,8 +38,8 @@ model JoinedServer {
   id                      String                @id             @default(uuid())
   date                    DateTime
   indicator               Boolean                               @default(true)
-  servers                 Server                                @relation(fields: [serverId], references: [id])
-  serverId                String
+  servers                 Server                                @relation(fields: [serverName], references: [name])
+  serverName              String
   user                    User                                  @relation(fields: [userId], references: [id])
   userId                  String
 }
