@@ -26,6 +26,8 @@ model Server {
   id                      String                @id             @default(uuid())
   name                    String                @unique
   date                    DateTime
+  status                  String
+  passcode                String?
   joined_servers          JoinedServer[]
   chats                   Chat[]
   user                    User                                  @relation(fields: [userId], references: [id])
