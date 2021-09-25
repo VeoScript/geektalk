@@ -1,11 +1,23 @@
 import React, { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
+import { useForm } from 'react-hook-form'
 
 interface GeekProps {
+  host: any
   server: any
 }
 
-const JoinPrivate: React.FC<GeekProps> = ({ server }) => {
+type FormData = {
+  passcode: string
+}
+
+const JoinPrivate: React.FC<GeekProps> = ({ host, server }) => {
+
+  const check_joined_user = server.joined_servers.some((joinedServer: {userId: string}) => joinedServer.userId === host.id)
+  const check_joined_server = server.joined_servers.some((joinedServer: {indicator: boolean}) => joinedServer.indicator === true)
+
+  const { register, reset, handleSubmit, setError, formState: { errors, isSubmitting } } = useForm<FormData>()
+
   const [isOpen, setIsOpen] = useState(false)
 
   function closeModal() {
@@ -16,15 +28,46 @@ const JoinPrivate: React.FC<GeekProps> = ({ server }) => {
     setIsOpen(true)
   }
 
+  async function onAccept(formData: FormData) {
+    const userId = host.id
+    const serverName = server.name
+    const servePasscode = server.passcode
+    const passcode = formData.passcode
+
+    if (servePasscode !== passcode) {
+      setError('passcode', {
+        type: 'manual',
+        message: 'Incorrect passcode, try again.',
+      })
+      return
+    }
+
+    await fetch('/api/joinserver/private', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        userId,
+        serverName
+      })
+    })
+    reset()
+    closeModal()
+  }
+
   return (
     <>
       <button 
-        className="flex items-center justify-end w-full max-w-[6rem] px-5 font-light text-sm text-cyber-white hover:underline focus:outline-none"
+        className={`${check_joined_user && check_joined_server ? 'hidden' : 'block'} flex items-center justify-end w-full max-w-[6rem] px-5 font-light text-sm text-cyber-white hover:underline focus:outline-none`}
         type="button"
         onClick={openModal}
       >
         &gt; Join
       </button>
+      <div className={`${check_joined_user && check_joined_server ? 'block' : 'hidden'} flex items-center justify-end w-full max-w-[6rem] px-5 font-light text-sm text-cyber-white text-opacity-30`}>
+        &gt; Joined
+      </div>
 
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog
@@ -77,14 +120,17 @@ const JoinPrivate: React.FC<GeekProps> = ({ server }) => {
                     Server: <span className="text-cyber-green">{ server.name }</span>
                   </div>
                 </div>
-
-                <form className="flex flex-col space-y-4 mt-4">
-                  <div className="flex w-full space-y-2">
+                <form onSubmit={handleSubmit(onAccept)} className="flex flex-col space-y-4 mt-4">
+                  <div className="flex flex-col w-full space-y-2">
                     <input
                       className="font-light text-sm text-cyber-white text-opacity-80 px-1 py-2 w-full max-w-xs bg-transparent border-b border-cyber-white border-opacity-20 focus:border-cyber-green focus:outline-none"
                       type="password"
                       placeholder=">> Enter passcode"
+                      {...register('passcode', {
+                        required: true
+                      })}
                     />
+                    {errors.passcode && <span className="font-light text-xs text-red-500">{errors.passcode.message}</span>}
                   </div>
                   <div className="flex items-center space-x-3">
                     <button 

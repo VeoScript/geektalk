@@ -1,11 +1,19 @@
 import React, { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
+import { useForm } from 'react-hook-form'
 
 interface GeekProps {
+  host: any
   server: any
 }
 
-const JoinPublic: React.FC<GeekProps> = ({ server }) => {
+const JoinPublic: React.FC<GeekProps> = ({ host, server }) => {
+
+  const check_joined_user = server.joined_servers.some((joinedServer: {userId: string}) => joinedServer.userId === host.id)
+  const check_joined_server = server.joined_servers.some((joinedServer: {indicator: boolean}) => joinedServer.indicator === true)
+
+  const { handleSubmit, formState: { isSubmitting } } = useForm()
+
   const [isOpen, setIsOpen] = useState(false)
 
   function closeModal() {
@@ -16,15 +24,34 @@ const JoinPublic: React.FC<GeekProps> = ({ server }) => {
     setIsOpen(true)
   }
 
+  async function onAccept() {
+    const userId = host.id
+    const serverName = server.name
+    await fetch('/api/joinserver/public', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        userId,
+        serverName
+      })
+    })
+    closeModal()
+  }
+
   return (
     <>
       <button 
-        className="flex items-center justify-end w-full max-w-[6rem] px-5 font-light text-sm text-cyber-white hover:underline focus:outline-none"
+        className={`${check_joined_user && check_joined_server ? 'hidden' : 'block'} flex items-center justify-end w-full max-w-[6rem] px-5 font-light text-sm text-cyber-white hover:underline focus:outline-none`}
         type="button"
         onClick={openModal}
       >
         &gt; Join
       </button>
+      <div className={`${check_joined_user && check_joined_server ? 'block' : 'hidden'} flex items-center justify-end w-full max-w-[6rem] px-5 font-light text-sm text-cyber-white text-opacity-30`}>
+        &gt; Joined
+      </div>
 
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog
@@ -78,14 +105,20 @@ const JoinPublic: React.FC<GeekProps> = ({ server }) => {
                     Server: <span className="text-cyber-green">{ server.name }</span>
                   </div>
                 </div>
-
-                <div className="flex items-center space-x-3 mt-4">
-                  <button 
-                    className="font-light text-sm text-cyber-yellow hover:underline focus:outline-none"
-                    type="button"
-                  >
-                    &gt; Accept
-                  </button>
+                <form onSubmit={handleSubmit(onAccept)} className="flex items-center space-x-3 mt-4">
+                  {!isSubmitting && (
+                    <button 
+                      className="font-light text-sm text-cyber-yellow hover:underline focus:outline-none"
+                      type="submit"
+                    >
+                      &gt; Accept
+                    </button>
+                  )}
+                  {isSubmitting && (
+                    <div className="font-light text-sm text-cyber-yellow">
+                      &gt; Accepting...
+                    </div>
+                  )}
                   <button 
                     className="font-light text-sm text-cyber-white hover:underline focus:outline-none"
                     type="button"
@@ -93,7 +126,7 @@ const JoinPublic: React.FC<GeekProps> = ({ server }) => {
                   >
                     &gt; Decline
                   </button>
-                </div>
+                </form>
               </div>
             </Transition.Child>
           </div>

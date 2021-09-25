@@ -10,7 +10,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         {
           date: 'desc'
         }
-      ]
+      ],
+      select: {
+        id: true,
+        name: true,
+        status: true,
+        passcode: true,
+        joined_servers: {
+          select: {
+            indicator: true,
+            userId: true
+          }
+        }
+      }
     })
     res.status(200).json(get_servers)
   }
