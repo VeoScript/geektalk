@@ -8,7 +8,7 @@ type GeekProps = {
 
 interface FormData {
   server_status: string
-  server_passcode: string
+  server_passcode?: string
   server_name: string
 }
 
@@ -41,7 +41,7 @@ const CreateServerForm: React.FC<GeekProps> = ({ host }) => {
 
   function changeStatus(e: any) {
     if (e.target.value === '') {
-      clearErrors('server_name')
+      onPublic()
     }
     if (e.target.value === 'Private' || e.target.value === 'PRIVATE' || e.target.value === 'private' || e.target.value === 'Public' || e.target.value === 'PUBLIC' || e.target.value === 'public') {
       if (e.target.value === 'Private' || e.target.value === 'private' || e.target.value === 'PRIVATE') {
@@ -49,9 +49,9 @@ const CreateServerForm: React.FC<GeekProps> = ({ host }) => {
       } else {
         onPublic()
       }
-      clearErrors('server_name')
+      clearErrors('server_status')
     } else {
-      setError('server_name', {
+      setError('server_status', {
         type: 'manual',
         message: 'Invalid server status, type Public or Private only.',
       })
@@ -73,90 +73,123 @@ const CreateServerForm: React.FC<GeekProps> = ({ host }) => {
       return
     }
 
-    await fetch('/api/server/post/create_server', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        user_id,
-        server_status,
-        server_passcode,
-        server_name
+    if (server_status === 'public' || server_status === 'Public' || server_status === 'PUBLIC' || server_status === 'private' || server_status === 'Private' || server_status === 'PRIVATE') {
+      // promise to create a server
+      await fetch('/api/server/post/create_server', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          user_id,
+          server_status,
+          server_passcode,
+          server_name
+        })
       })
-    })
-    reset()
-    onPublic()
-    mutate(`/api/server/get/created_servers/${host.id}`)
-  }
+
+      if (server_status === 'public' || server_status === 'Public' || server_status === 'PUBLIC') {
+        // promise to auto join to public server after created the server
+        await fetch('/api/joinserver/public', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            userId: user_id,
+            serverName: server_name
+          })
+        })
+      }
+  
+      if (server_status === 'private' || server_status === 'Private' || server_status === 'PRIVATE') {
+        // promise to auto join to private server after created the server
+        await fetch('/api/joinserver/private', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            userId: user_id,
+            serverName: server_name
+          })
+        })
+      }
+    
+      reset()
+      mutate(`/api/server/get/created_servers/${host.id}`)
+    } else {
+      setError('server_status', {
+        type: 'manual',
+        message: 'Invalid server status, type Public or Private only.',
+      })
+    }
+  } 
 
   return (
     <div className="flex flex-col w-full py-5 px-3 bg-cyber-dim border-b border-cyber-white border-opacity-10">
-      <form onSubmit={handleSubmit(handleCreate)} className="flex flex-col items-center justify-between w-full">
-        {/* -- server status text-input -- */}
-        <div className="flex flex-row items-center w-full font-light text-base">
-          <span className="text-cyber-white text-opacity-50">&gt;</span>&nbsp;Server Status&nbsp;
-          <span className="text-cyber-white text-opacity-50"> : </span>&nbsp;
-          {!isSubmitting && (
-            <input
-              className="font-light text-cyber-white bg-cyber-dim focus:outline-none"
-              type="text"
-              placeholder="Type Public or Private..."
-              {...register("server_status", {
-                required: true
-              })}
-              onChange={changeStatus}
-            />
-          )}
-          {isSubmitting && (
-            <div className="font-light text-cyber-white bg-cyber-dim focus:outline-none">
-              Wait...
+      <form onSubmit={handleSubmit(handleCreate)} className="flex flex-col w-full">
+        <div className="flex flex-col w-full">
+          <div className="flex flex-row items-center">
+            <div className="flex items-center">
+              <span className="text-cyber-white text-opacity-50">&gt;</span>&nbsp;Server Name&nbsp;
+              <span className="text-cyber-white text-opacity-50"> : </span>&nbsp;
             </div>
-          )}
-        </div>
-        {/* -- server passcode text-input -- */}
-        {serverStatus && (
-          <div className="flex flex-row items-center w-full font-light text-base">
-            <span className="text-cyber-white text-opacity-50">&gt;</span>&nbsp;Passcode&nbsp;
-            <span className="text-cyber-white text-opacity-50"> : </span>&nbsp;
-            {!isSubmitting && (
+            <div className="form-control">
               <input
                 className="font-light text-cyber-white bg-cyber-dim focus:outline-none"
-                type="password"
-                placeholder="Enter passcode"
-                {...register("server_passcode", {
+                type="text"
+                placeholder="Type here..."
+                {...register("server_name", {
                   required: true
                 })}
               />
-            )}
-            {isSubmitting && (
-              <div className="font-light text-cyber-white bg-cyber-dim focus:outline-none">
-                Wait...
+            </div>
+          </div>
+          {errors.server_name && <p className="font-light text-xs text-red-500">{errors.server_name.message || 'Server name cannot be empty.'}</p>}
+        </div>
+        <div className="flex flex-col w-full">
+          <div className="flex flex-row items-center">
+            <div className="flex items-center">
+              <span className="text-cyber-white text-opacity-50">&gt;</span>&nbsp;Server Status&nbsp;
+              <span className="text-cyber-white text-opacity-50"> : </span>&nbsp;
+            </div>
+            <div className="form-control">
+              <input
+                className="font-light text-cyber-white bg-cyber-dim focus:outline-none"
+                type="text"
+                placeholder="Type Public or Private..."
+                {...register("server_status", {
+                  required: true
+                })}
+                onChange={changeStatus}
+              />
+            </div>
+          </div>
+          {errors.server_status && <p className="font-light text-xs text-red-500">{errors.server_status.message || 'Server status cannot be empty.'}</p>}
+        </div>
+        {serverStatus && (
+          <div className="flex flex-col w-full">
+            <div className="flex flex-row items-center">
+              <div className="flex items-center">
+                <span className="text-cyber-white text-opacity-50">&gt;</span>&nbsp;Server Passcode&nbsp;
+                <span className="text-cyber-white text-opacity-50"> : </span>&nbsp;
               </div>
-            )}
+              <div className="form-control">
+                <input
+                  className="font-light text-cyber-white bg-cyber-dim focus:outline-none"
+                  type="password"
+                  placeholder="Enter passcode"
+                  {...register("server_passcode", {
+                    required: true
+                  })}
+                />
+              </div>
+            </div>
+            {errors.server_passcode && <p className="font-light text-xs text-red-500">{errors.server_passcode.message || 'Server passcode cannot be empty.'}</p>}
           </div>
         )}
-        {/* -- server name text-input -- */}
-        <div className="flex flex-row items-center w-full font-light text-base">
-          <span className="text-cyber-white text-opacity-50">&gt;</span>&nbsp;Enter Server Name&nbsp;
-          <span className="text-cyber-white text-opacity-50"> : </span>&nbsp;
-          {!isSubmitting && (
-            <input
-              className="font-light text-cyber-white bg-cyber-dim focus:outline-none"
-              type="text"
-              placeholder="Type here..."
-              {...register("server_name", {
-                required: true
-              })}
-            />
-          )}
-          {isSubmitting && (
-            <div className="font-light text-cyber-white bg-cyber-dim focus:outline-none">
-              Creating...
-            </div>
-          )}
-        </div>
-        <div className="flex flex-row items-center justify-end w-full space-x-3">
+        <div className="flex flex-row items-center justify-end w-full mt-3 space-x-3">
           <button 
             className="flex items-center justify-end font-light text-sm text-cyber-white hover:underline focus:outline-none"
             type="submit"
@@ -172,9 +205,6 @@ const CreateServerForm: React.FC<GeekProps> = ({ host }) => {
           </button>
         </div>
       </form>
-      <div className="flex w-full">
-        {errors.server_name && <p className="mt-3 font-light text-xs text-red-500">{errors.server_name.message}</p>}
-      </div>
     </div>
   )
 }

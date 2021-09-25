@@ -4,7 +4,9 @@ import JoinPublic from './JoinServer/Public'
 import JoinPrivate from './JoinServer/Private'
 
 interface GeekProps {
+  host: any
   servers: any
+  joined_servers: any
 }
 
 const fetcher = async (
@@ -16,7 +18,7 @@ const fetcher = async (
   return res.json()
 }
 
-const ServerBody: React.FC<GeekProps> = ({ servers }) => {
+const ServerBody: React.FC<GeekProps> = ({ host, servers }) => {
 
   const { data: server_data } = useSWR('/api/server/get/servers', fetcher, {
     refreshInterval: 1000,
@@ -31,10 +33,16 @@ const ServerBody: React.FC<GeekProps> = ({ servers }) => {
             <span className="text-cyber-white text-opacity-50">$</span>&nbsp;{ server.name }
           </div>
           {(server.status === 'public' || server.status === 'Public' || server.status === 'PUBLIC') && (
-            <JoinPublic server={server} />
-          )}
+            <JoinPublic
+              host={host}
+              server={server}
+            />
+            )}
           {(server.status === 'private' || server.status === 'Private' || server.status === 'PRIVATE') && (
-            <JoinPrivate server={server} />
+            <JoinPrivate
+              host={host}
+              server={server}
+            />
           )}
         </div>
       ))}

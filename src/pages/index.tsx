@@ -11,9 +11,10 @@ import ServerBody from '~/components/ServersTerminal/ServerBody'
 interface GeekProps {
   host: any
   servers: any
+  joined_servers: any
 }
 
-const DiscoverServers: NextPage<GeekProps> = ({ host, servers }) => {
+const DiscoverServers: NextPage<GeekProps> = ({ host, servers, joined_servers }) => {
   return (
     <React.Fragment>
       <Head>
@@ -22,7 +23,11 @@ const DiscoverServers: NextPage<GeekProps> = ({ host, servers }) => {
       <Layout host={host}>
         <div className="relative flex flex-col w-full max-w-full h-full overflow-hidden">
           <ServerHeader />
-          <ServerBody servers={servers} />
+          <ServerBody
+            host={host}
+            servers={servers}
+            joined_servers={joined_servers}
+          />
         </div>
       </Layout>
     </React.Fragment>
@@ -57,14 +62,30 @@ export const getServerSideProps: GetServerSideProps = withSession(async function
       id: true,
       name: true,
       status: true,
-      passcode: true
+      passcode: true,
+      joined_servers: {
+        select: {
+          indicator: true,
+          userId: true
+        }
+      }
+    }
+  })
+
+  const joined_servers = await prisma.joinedServer.findMany({
+    select: {
+      id: true,
+      userId: true,
+      indicator: true,
+      serverName: true
     }
   })
 
   return {
     props: {
       host,
-      servers
+      servers,
+      joined_servers
     }
   }
 })
