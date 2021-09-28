@@ -12,15 +12,16 @@ import CreateServerForm from '~/components/CreateServer/ServerForm'
 interface GeekProps {
   host: any
   user_created_servers: any
+  joined_servers: any
 }
 
-const CreateServer: NextPage<GeekProps> = ({ host, user_created_servers }) => {
+const CreateServer: NextPage<GeekProps> = ({ host, user_created_servers, joined_servers }) => {
   return (
     <React.Fragment>
       <Head>
         <title>Create Server | GeekTalk</title>
       </Head>
-      <Layout host={host}>
+      <Layout host={host} joined_servers={joined_servers}>
         <div className="relative flex flex-col w-full max-w-full h-full overflow-hidden">
           <CreateServerHeader />
           <CreateServerForm host={host} />
@@ -67,10 +68,30 @@ export const getServerSideProps: GetServerSideProps = withSession(async function
     }
   })
 
+  const joined_servers = await prisma.joinedServer.findMany({
+    where: {
+      userId: user.id
+    },
+    select: {
+      id: true,
+      userId: true,
+      indicator: true,
+      serverName: true,
+      servers: {
+        select: {
+          name: true,
+          status: true,
+          passcode: true
+        }
+      }
+    }
+  })
+
   return {
     props: {
       host,
-      user_created_servers
+      user_created_servers,
+      joined_servers
     }
   }
 })

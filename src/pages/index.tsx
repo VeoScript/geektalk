@@ -20,7 +20,7 @@ const DiscoverServers: NextPage<GeekProps> = ({ host, servers, joined_servers })
       <Head>
         <title>Discover Servers | GeekTalk</title>
       </Head>
-      <Layout host={host}>
+      <Layout host={host} joined_servers={joined_servers}>
         <div className="relative flex flex-col w-full max-w-full h-full overflow-hidden">
           <ServerHeader />
           <ServerBody
@@ -73,11 +73,21 @@ export const getServerSideProps: GetServerSideProps = withSession(async function
   })
 
   const joined_servers = await prisma.joinedServer.findMany({
+    where: {
+      userId: user.id
+    },
     select: {
       id: true,
       userId: true,
       indicator: true,
-      serverName: true
+      serverName: true,
+      servers: {
+        select: {
+          name: true,
+          status: true,
+          passcode: true
+        }
+      }
     }
   })
 
